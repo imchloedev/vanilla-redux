@@ -2,13 +2,13 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Todo from "../components/Todo";
 import { addToDo, deleteToDo } from "../store";
+import { Link } from "react-router-dom";
 
 function Home() {
   const [text, setText] = useState("");
 
   const todo = useSelector((state) => state);
   console.log(todo);
-
 
   const dispatch = useDispatch();
 
@@ -22,10 +22,6 @@ function Home() {
     setText("");
   }
 
-  function onRemove(e) {
-    e.preventDefault();
-
-  }
 
   return (
     <>
@@ -36,7 +32,14 @@ function Home() {
       </form>
       <ul>
         {todo.map((item) => (
-          <Todo {...item} key={item.id} />
+          <li key={item.id}>
+            <Link to={`/${item.id}`}>
+            {item.text}
+            </Link>
+            <button onClick={() => dispatch(deleteToDo(item.id))}>
+              DELETE
+            </button>
+          </li>
         ))}
       </ul>
     </>
